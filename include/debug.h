@@ -3,10 +3,10 @@
 
 #include <stdlib.h>
 
-#define ASSERT(CONDITION)   \
+#define ASSERT(CONDITION) \
   if (CONDITION) { } else { \ 
-     printf("ASSERT ERROR : FILE[%s] LINE[%d]\n", __FILE__, __LINE__);\
-     exit(0);\
+     printf("ASSERT ERROR : FILE[%s] LINE[%d]\n", __FILE__, __LINE__); \
+     exit(0); \
     }
 
 #endif

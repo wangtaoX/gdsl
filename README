@@ -1,4 +1,6 @@
   This is a simple library impilments some general data structures,
-you can free use it.
+you can free use it in your own program.
+
   Data structure contains simple double linked list, stack, queue,
-bitmap, queue.
+bitmap, hash table, red black tree, heap sort, insertion sort,
+structure object cache, thread pool. 
