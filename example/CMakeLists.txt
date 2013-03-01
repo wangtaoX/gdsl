@@ -1,3 +1,5 @@
 INCLUDE_DIRECTORIES("../include")
-ADD_EXECUTABLE(test_list "test_list.c")
+ADD_EXECUTABLE(test_list test_list.c)
+ADD_EXECUTABLE(test_hash test_hash.c)
 TARGET_LINK_LIBRARIES(test_list gdsl)
+TARGET_LINK_LIBRARIES(test_hash gdsl)
