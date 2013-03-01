@@ -1,7 +1,7 @@
 #include "../include/hash.h"
 
 #define list_elem_to_hash_elem(list_e) \
-  list_entry(list_elem, struct hash_elem, list_elem)
+  list_entry(list_e, struct hash_elem, list_elem)
 
 bool hash_init(struct hash_table *ht, hash_function *hf,
     less_function *lf, void *aux)
@@ -50,4 +50,68 @@ void hash_destory(struct hash_table *ht, hash_action *ha)
   if (ha != NULL)
     hash_clear(ht, ha);
   free(ht->buckets);
+}
+
+bool hash_empty(struct hash_table *ht)
+{
+  return ((ht != NULL) && ht->elem_cnt == 0);
+}
+
+size_t hash_size(struct hash_table *ht)
+{
+  return ht->elem_cnt;
+}
+
+/* find an ELEMENT equal to HE and return it, otherwise return NULL */
+struct hash_elem *find_elem(struct hash_table *ht, struct list *list, struct hash_elem *he)
+{
+  struct list_elem *le;
+
+  /* 1. walk through the list and find the ELEMENT,
+   * maybe there is no such ELEMENT */
+  if (list == NULL || he == NULL || ht == NULL)
+    return NULL;
+
+  for (le = list_begin(list); le != list_end(list); le = list_next(le))
+  {
+    struct hash_elem *h = list_elem_to_hash_elem(le);
+    if (!ht->less(he, h, ht->aux) && !ht->less(h, he, ht->aux))
+      return h;
+  }
+
+  /* no such element */
+  return NULL;
+}
+
+/* find the bucket id for element HE */
+static struct list *find_bucket(struct hash_table *ht, struct hash_elem *he)
+{
+  /* 1. find bucket id
+   * 2. return the address of the list by bucket id */
+  size_t bucket_id = ht->hash(he, ht->aux) & (ht->bucket_cnt - 1);
+  return &ht->buckets[bucket_id];
+}
+
+/* insert HE into list BUCKET */
+void insert_elem(struct hash_table *ht, struct list *list, struct hash_elem *he)
+{
+  ht->elem_cnt++;
+  list_push_front(list, &he->list_elem);
+}
+
+/* return NULL if there is an ELEMENT equal to HE, 
+ * otherwise return itself */
+struct hash_elem *hash_insert(struct hash_table *ht, struct hash_elem *he)
+{
+  /* 1. find bucket
+   * 2. is there an element equal to HE ?
+   * 3. find an element , then return NULL
+   * 4. wether rehash the hash table */
+  struct list *bucket = find_bucket(ht, he);
+  struct hash_elem *hash_elem = find_elem(ht, bucket, he);
+
+  if (hash_elem != NULL)
+    insert_elem(ht, bucket, he);
+
+  return hash_elem;
 }

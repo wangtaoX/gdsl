@@ -45,4 +45,10 @@ bool hash_init(struct hash_table *ht, hash_function *hf,
 void hash_clear(struct hash_table *ht, hash_action *ha);
 void hash_destory(struct hash_table *ht, hash_action *ha);
 
+/* hash table information */
+bool hash_empty(struct hash_table *ht);
+size_t hash_size(struct hash_table *ht);
+
+/* hash table operation */
+struct hash_elem *hash_insert(struct hash_table *ht, struct hash_elem *he);
 #endif
