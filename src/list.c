@@ -67,13 +67,13 @@ int list_empty(struct list *list_)
 /* return the number of element in list */
 int list_size(struct list *list_)
 {
-  struct list_elem *le;
+  struct list_elem *le = list_begin(list_);
   struct list_elem *tail;
   int num = 0;
   ASSERT(list_ != NULL);
 
   tail = list_tail(list_);
-  for (le = list_begin(list_); le != tail; le = list_next(le))
+  for (; le != tail; le = list_next(le))
       num++;
 
   return num;

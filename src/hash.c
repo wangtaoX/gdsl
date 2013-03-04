@@ -40,6 +40,7 @@ void hash_clear(struct hash_table *ht, hash_action *ha)
       ha(hash_elem, ht->aux);
      }
    }
+   list_init(bucket);
   }
 
   ht->elem_cnt = 0;
@@ -72,7 +73,8 @@ struct hash_elem *find_elem(struct hash_table *ht, struct list *list, struct has
   if (list == NULL || he == NULL || ht == NULL)
     return NULL;
 
-  for (le = list_begin(list); le != list_end(list); le = list_next(le))
+  /* #### here comes a BUG */
+  for (le = list_begin(list); le != list_tail(list); le = list_next(le))
   {
     struct hash_elem *h = list_elem_to_hash_elem(le);
     if (!ht->less(he, h, ht->aux) && !ht->less(h, he, ht->aux))
@@ -110,8 +112,22 @@ struct hash_elem *hash_insert(struct hash_table *ht, struct hash_elem *he)
   struct list *bucket = find_bucket(ht, he);
   struct hash_elem *hash_elem = find_elem(ht, bucket, he);
 
-  if (hash_elem != NULL)
+  if (hash_elem == NULL)
     insert_elem(ht, bucket, he);
 
   return hash_elem;
+}
+
+/* return the number of elements in each buckets */
+size_t hash_each_size(struct hash_table *ht, size_t bucket_id)
+{
+  struct list *list = &ht->buckets[bucket_id];
+
+  return (!list_empty(list) ? list_size(list) : 0);
+}
+
+/* return the number of buckets in hash table HT */
+size_t hash_buckets(struct hash_table *ht)
+{
+  return ht->bucket_cnt;
 }
