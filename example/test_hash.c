@@ -30,8 +30,25 @@ bool hash_less(const struct hash_elem *h1,
 {
   struct my_s *h1_ = hash_entry(h1, struct my_s, hash_elem);
   struct my_s *h2_ = hash_entry(h2, struct my_s, hash_elem);
+  
+  char *str1 = h1_->str, *str2 = h2_->str;
+  while(*str1 != '\n' || *str2 != '\n')
+  {
+    if (*str1 != *str2)
+      return *str1 < *str2;
+    else
+    {
+      str1++;
+      str2++;
+    }
+  }
 
-  return h1_->str[0] < h2_->str[0];
+  if (*str1 == *str2)
+    return false;
+  if( *str1 == '\n' && *str1 != *str2)
+    return true;
+  
+  return false;
 }
 
 int main()
@@ -41,7 +58,7 @@ int main()
   int cnt = 0;
 
   hash_init(&ht, hash_string, hash_less, NULL);
-  while(cnt++ < 5)
+  while(cnt++ < 10)
   {
     s = (struct my_s *)malloc(sizeof(struct my_s));
     if (!fgets(s->str, 20, stdin))

@@ -91,6 +91,7 @@ static struct list *find_bucket(struct hash_table *ht, struct hash_elem *he)
   /* 1. find bucket id
    * 2. return the address of the list by bucket id */
   size_t bucket_id = ht->hash(he, ht->aux) & (ht->bucket_cnt - 1);
+  printf("bucket_id %d\n", bucket_id);
   return &ht->buckets[bucket_id];
 }
 
@@ -113,7 +114,10 @@ struct hash_elem *hash_insert(struct hash_table *ht, struct hash_elem *he)
   struct hash_elem *hash_elem = find_elem(ht, bucket, he);
 
   if (hash_elem == NULL)
+  {
     insert_elem(ht, bucket, he);
+    printf("insert\n");
+  }
 
   return hash_elem;
 }
