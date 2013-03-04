@@ -95,6 +95,13 @@ static struct list *find_bucket(struct hash_table *ht, struct hash_elem *he)
   return &ht->buckets[bucket_id];
 }
 
+/* remove HE from hash table */
+void remove_elem(struct hash_table *ht, struct hash_elem *he)
+{
+  ht->elem_cnt--;
+  list_remove(&he->list_elem);
+}
+
 /* insert HE into list BUCKET */
 void insert_elem(struct hash_table *ht, struct list *list, struct hash_elem *he)
 {
@@ -134,4 +141,42 @@ size_t hash_each_size(struct hash_table *ht, size_t bucket_id)
 size_t hash_buckets(struct hash_table *ht)
 {
   return ht->bucket_cnt;
+}
+
+/* find HE in hash table */
+struct hash_elem *hash_find(struct hash_table *ht,
+    struct hash_elem *he)
+{
+  return find_elem(ht, find_bucket(ht, he), he);
+}
+
+/* replace a given element equal to he */
+struct hash_elem *hash_replace(struct hash_table *ht, 
+    struct hash_elem *he)
+{
+  struct list *bucket = find_bucket(ht, he);
+  struct hash_elem *hash_elem = find_elem(ht, bucket, he);
+
+  if (hash_elem != NULL)
+  {
+    remove_elem(ht, hash_elem);
+  }
+
+  insert_elem(ht, bucket, he);
+
+  return hash_elem;
+}
+
+/* delete HE from hash table */
+struct hash_elem *hash_delete(struct hash_table *ht, 
+    struct hash_elem *he)
+{
+  struct hash_elem *hash_elem = find_elem(ht, find_bucket(ht, he), he);
+
+  if (hash_elem != NULL)
+  {
+    remove_elem(ht, hash_elem);
+  }
+
+  return hash_elem;
 }

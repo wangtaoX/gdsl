@@ -53,5 +53,8 @@ size_t hash_buckets(struct hash_table *ht);
 
 /* hash table operation */
 struct hash_elem *hash_insert(struct hash_table *ht, struct hash_elem *he);
+struct hash_elem *hash_find(struct hash_table *ht, struct hash_elem *he);
+struct hash_elem *hash_replace(struct hash_table *ht, struct hash_elem *he);
+struct hash_elem *hash_delete(struct hash_table *ht, struct hash_elem *he);
 
 #endif
