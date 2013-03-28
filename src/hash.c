@@ -64,7 +64,8 @@ size_t hash_size(struct hash_table *ht)
 }
 
 /* find an ELEMENT equal to HE and return it, otherwise return NULL */
-struct hash_elem *find_elem(struct hash_table *ht, struct list *list, struct hash_elem *he)
+struct hash_elem *find_elem(struct hash_table *ht, 
+		struct list *list, struct hash_elem *he)
 {
   struct list_elem *le;
 
@@ -91,7 +92,6 @@ static struct list *find_bucket(struct hash_table *ht, struct hash_elem *he)
   /* 1. find bucket id
    * 2. return the address of the list by bucket id */
   size_t bucket_id = ht->hash(he, ht->aux) & (ht->bucket_cnt - 1);
-  printf("bucket_id %d\n", bucket_id);
   return &ht->buckets[bucket_id];
 }
 
