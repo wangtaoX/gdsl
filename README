@@ -4,8 +4,7 @@ gdsl is a simple library implements some general data structures, you can use it
 
 - what gdsl can do ?
 
-gdsl provide some basic data structures to simplify your programming, gdsl contains : queue, stack, list, 
-hash table, string operation, bit map, basic sort algorithm
+gdsl provides some basic data structures to simplify your programming, gdsl contains : queue, stack, list, hash table, string operation, bit map, basic sort algorithm
 
 - How to use it ?
 
