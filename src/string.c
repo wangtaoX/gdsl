@@ -1,4 +1,4 @@
-#include "../include/string.h"
+#include "../include/gstring.h"
 
 /* Copy SIZE bytes from SRC to DST, return DST  *
  * Warning: No overlap here                     */

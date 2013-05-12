@@ -1,5 +1,5 @@
 #the source code name
-SET(LIB_SRC list.c hash.c string.c bitmap.c rw_lock.c)
+SET(LIB_SRC list.c hash.c string.c bitmap.c rw_lock.c xor.c)
 
 #set header file directory
 SET(HEADER_FILE_DIR "../include")
